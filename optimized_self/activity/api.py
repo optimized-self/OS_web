@@ -1,5 +1,7 @@
 from flask import Flask, Blueprint
 from flask_restful import Api, Resource
+
+from optimized_self import db 
 from .post_parser import parse_args
 
 bp = Blueprint('activity_api', __name__, url_prefix='/api')
@@ -12,6 +14,11 @@ class Activity(Resource):
     def post(self):
         args = parse_args()
         activity = {'name': args['name']}
+
+        # insert the activity
+        result = db.insert_one('activity', activity) 
+        activity['id'] = result 
+
         return activity, 201
 
 
