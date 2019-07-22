@@ -1,11 +1,7 @@
-from flask import Flask, Blueprint
-from flask_restful import Api, Resource, fields, marshal_with
+from flask_restful import Resource, fields, marshal_with
 
 from optimized_self import db 
 from .post_parser import parse_args
-
-bp = Blueprint('activity_api', __name__, url_prefix='/api')
-api = Api(bp)
 
 activity_response_fields = {
     'name': fields.String,
@@ -26,6 +22,3 @@ class Activity(Resource):
         activity['id'] = result 
 
         return activity, 201
-
-
-api.add_resource(Activity, '/activity')

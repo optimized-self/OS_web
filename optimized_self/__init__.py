@@ -2,7 +2,7 @@ import os
 
 from flask import Flask
 
-from .activity.api import bp as activity_api
+from .activity import bp as activity_api
 
 def create_app():
     app = Flask(__name__)
