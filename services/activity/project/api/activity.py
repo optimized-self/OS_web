@@ -1,6 +1,6 @@
 from flask_restful import Resource, fields, marshal_with
 
-from optimized_self import db 
+import project.db as db 
 from .post_parser import parse_args
 
 activity_response_fields = {
