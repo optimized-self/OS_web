@@ -9,7 +9,36 @@ services:
       - './services/activity:/usr/src/app'
     ports:
       - 5001:5000
-    environment:
-      - FLASK_APP=project/__init__.py
-      - FLASK_ENV=development
-      - APP_SETTINGS=project.config.DevelopmentConfig
+    env_file:
+      - ./services/activity/.env
+    depends_on:
+      - activity-db
+    secrets:
+      - activity-db_python_password
+
+  activity-db:
+    build:
+      context: ./services/activity/project/db
+      dockerfile: Dockerfile
+    restart: always
+    expose:
+      - 27017
+    # for debugging on host (dev only)
+    ports:
+      - 27017:27017
+    env_file:
+      - ./services/activity/project/db/.env
+    volumes:
+      - activity-db_data:/data/db
+    secrets:
+      - activity-db_python_password
+      - activity-db_root_password
+
+volumes:
+  activity-db_data:
+
+secrets:
+  activity-db_python_password:
+    file: secrets/activity-db_python_password.txt
+  activity-db_root_password:
+    file: secrets/activity-db_root_password.txt

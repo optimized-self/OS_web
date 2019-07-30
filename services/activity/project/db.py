@@ -7,7 +7,7 @@ from urllib import parse
 def insert_one(collection_name, document):
     try:
         # get the collection object
-        client = MongoClient(os.environ.get('DB_CONNECTION_STRING'))
+        client = MongoClient(_get_db_connection_string())
         db = client[os.environ['DB_NAME']]
         collection = db[collection_name]
        
@@ -23,3 +23,12 @@ def insert_one(collection_name, document):
         print(f"UnicodeError: {err}")
 
     return False
+
+def _get_db_connection_string():
+    user = parse.quote_plus(os.environ['DB_USER'])
+    with open(os.environ['DB_PASSWORD_FILE']) as f:
+        password = parse.quote_plus(f.readline().rstrip('\n'))
+    host = parse.quote_plus(os.environ['DB_HOST_NAME'])
+    port = parse.quote_plus(os.environ['DB_HOST_PORT'])
+    db_connection_string = f"mongodb://{user}:{password}@{host}:{port}"
+    return db_connection_string
