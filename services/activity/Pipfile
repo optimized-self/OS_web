@@ -8,8 +8,8 @@ verify_ssl = true
 [packages]
 flask = "*"
 flask-restful = "*"
-pymongo = "*"
 dnspython = "*"
+flask-mongoengine = "*"
 
 [requires]
 python_version = "3.7"
