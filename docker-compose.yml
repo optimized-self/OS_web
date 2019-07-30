@@ -18,7 +18,7 @@ services:
 
   activity-db:
     build:
-      context: ./services/activity/project/db
+      context: ./services/activity-db
       dockerfile: Dockerfile
     restart: always
     expose:
@@ -27,7 +27,7 @@ services:
     ports:
       - 27017:27017
     env_file:
-      - ./services/activity/project/db/.env
+      - ./services/activity-db/.env
     volumes:
       - activity-db_data:/data/db
     secrets:
